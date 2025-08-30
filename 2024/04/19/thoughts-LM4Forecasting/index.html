@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="自ChatGPT问世以后，大模型非常的火，不出意外的话，电力系统方向又打算搞事情了。大模型+电力任重道远。最近听说了一些关于大模型+风光功率预测、负荷预测、电价预测的想法，初步分析下，很遗憾的是，个人得出结论是不可行。简单来说，如果强行使用大模型来做电力预测，本质上可能只是一厢情愿的希望大模型去预测一个噪声罢了。 为什么大模型做不了电力预测 以日前电价预测为例。日前电价的产生过程实质并不复杂。日前">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大模型+电力预测？">
+<meta property="og:url" content="https://bigdogmanluo.github.io/2024/04/19/thoughts-LM4Forecasting/index.html">
+<meta property="og:site_name" content="Try to Understand">
+<meta property="og:description" content="自ChatGPT问世以后，大模型非常的火，不出意外的话，电力系统方向又打算搞事情了。大模型+电力任重道远。最近听说了一些关于大模型+风光功率预测、负荷预测、电价预测的想法，初步分析下，很遗憾的是，个人得出结论是不可行。简单来说，如果强行使用大模型来做电力预测，本质上可能只是一厢情愿的希望大模型去预测一个噪声罢了。 为什么大模型做不了电力预测 以日前电价预测为例。日前电价的产生过程实质并不复杂。日前">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-04-18T23:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-30T10:56:04.494Z">
+<meta property="article:author" content="BigdogManLuo">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>大模型+电力预测？</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2025/08/06/thoughts-AIGC/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2023/03/06/techArt-Code_acc/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://bigdogmanluo.github.io/2024/04/19/thoughts-LM4Forecasting/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://bigdogmanluo.github.io/2024/04/19/thoughts-LM4Forecasting/&text=大模型+电力预测？"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://bigdogmanluo.github.io/2024/04/19/thoughts-LM4Forecasting/&title=大模型+电力预测？"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://bigdogmanluo.github.io/2024/04/19/thoughts-LM4Forecasting/&is_video=false&description=大模型+电力预测？"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=大模型+电力预测？&body=Check out this article: https://bigdogmanluo.github.io/2024/04/19/thoughts-LM4Forecasting/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://bigdogmanluo.github.io/2024/04/19/thoughts-LM4Forecasting/&title=大模型+电力预测？"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://bigdogmanluo.github.io/2024/04/19/thoughts-LM4Forecasting/&title=大模型+电力预测？"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://bigdogmanluo.github.io/2024/04/19/thoughts-LM4Forecasting/&title=大模型+电力预测？"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://bigdogmanluo.github.io/2024/04/19/thoughts-LM4Forecasting/&title=大模型+电力预测？"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://bigdogmanluo.github.io/2024/04/19/thoughts-LM4Forecasting/&name=大模型+电力预测？&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://bigdogmanluo.github.io/2024/04/19/thoughts-LM4Forecasting/&t=大模型+电力预测？"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%81%9A%E4%B8%8D%E4%BA%86%E7%94%B5%E5%8A%9B%E9%A2%84%E6%B5%8B"><span class="toc-number">1.</span> <span class="toc-text">为什么大模型做不了电力预测</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%9C%AA%E6%9D%A5%E7%9A%84%E6%96%B9%E5%90%91"><span class="toc-number">2.</span> <span class="toc-text">大模型未来的方向</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        大模型+电力预测？
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">BigdogManLuo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-04-18T23:00:00.000Z" class="dt-published" itemprop="datePublished">2024-04-19</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Thoughts/">Thoughts</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>自ChatGPT问世以后，大模型非常的火，不出意外的话，电力系统方向又打算搞事情了。大模型+电力任重道远。最近听说了一些关于大模型+风光功率预测、负荷预测、电价预测的想法，初步分析下，很遗憾的是，个人得出结论是不可行。简单来说，如果强行使用大模型来做电力预测，本质上可能只是一厢情愿的希望大模型去预测一个噪声罢了。</p>
+<h2 id="为什么大模型做不了电力预测">为什么大模型做不了电力预测</h2>
+<p>以日前电价预测为例。日前电价的产生过程实质并不复杂。日前电价是通过各个交易单元的日前报量报价出清计算出来的值。日前电价预测之所以复杂，是因为出清过程里的信息对预测的那一方来说并不是能够全部获取的。需要预测电价的往往是参与市场的交易方，但他并不知道参与交易的风光场站的功率预测值，也不知道全国的负荷预测结果。因此，日前电价预测难的是获取有效的数据，而非过程。对于风光功率预测来说同样如此。风光功率预测通常依赖于天气预报，风光功率预测的主要难度也在于如何处理天气预报的噪声干扰，而风力发电机和光伏发电的过程也是一个对于大模型而言并不复杂的物理过程。而如果要在日前对实时电价进行预测，可能就更难了。实时电价的产生主要来源于日前承诺与实时发电的不平衡，这个不平衡量通常含有的就是大量的风光功率预测误差的成分。要预测实时电价，就好比是预测一个预测模型的误差。而一个训练良好的预测模型，产生的误差理论上是均值为0的噪声。要是误差可预测，那为什么原来的预测模型不去预测误差呢？</p>
+<p>大模型当前的成功主要还是表现在自然语言处理和天气预测上。究其宏观的原因，还是因为这两件事情的过程足够复杂。自然语言的处理本身就是一种难以用数学和规则量化的事情，它更像是在群体社会这样的复杂系统中涌现出来的产物，自然语言处理依赖于大量的数据积累和难以量化的过程。因此自然语言处理需要用复杂系统来学习和建模。天气预报也是类似，天气本来就是一类混沌系统，天气里的物理量的变化遵循的是天气系统里的各种微分方程。天气系统里PDE本来就是一类没有解析解的问题，天气预测的复杂来源于它的混沌，因此也需要一个足够大和深的模型来表示。</p>
+<p>诚然，在提升模型大小和深度的方向上CV和NLP都取得了一定程度的成功。但遗憾的是，风光功率预测、负荷预测、电价预测的体系并不是上述这样的复杂系统。这些预测任务虽然是复杂的，但复杂的性质却跟自然语言处理和天气预测并不一样。电力预测的复杂并不在于预测量产生过程的复杂，而是在于缺少了信息的情况下引入的噪声影响预测精度。当然，大家可能会说即便缺少数据，从时间序列预测的角度确实能够提升精度。但如果大模型没有从数据角度解决这件事情，大模型预测所利用的信息与之前的方法是一样的，那么大模型的意义就仅在于模型大了一点深了一点。模型越大一定越好吗，这个道理显然不是。大模型意味着更大的数据支撑，也取决于数据集样本。要是以为任何事情都可以力大砖飞，不去细究背后的过程，最后换来的结果只是模型记住了一切的噪声，然后过拟合罢了。说到底，电力预测的有限性，还是在数据质量中带来的难以克服的噪声上。企图通过大模型来弥补这个噪声是不现实的，并不是什么都可预测，也并不是什么都能通过更大更深的模型来预测。以一个不恰当的比喻来看，用大模型预测风光、预测电价，就像是给大模型圆周率的前N位，让它预测后面的数据。它虽然确实可能擅长时间序列预测，但并不是万能到预测随机。</p>
+<p>除了机理上的分析，从工程的角度而言，大模型意味着大数据的支持。一个7B参数大模型，每个参数以float32方式存储，大约需要28GB的显存空间。一个28GB大小的模型，数据量该有多大合适呢？假设数据量是28GB，即便不划分训练集测试集，那么也只能找到唯一个满秩解。就好比线性回归里只有一个参数的线性模型拟合一个数据点一样滑稽。早期做LLM的公司都是或多或少有搜索引擎或是跟搜索引擎合作的，海量的数据获取和管理并不简单，更何况像电力这样大部分数据都是非公开难以获取的了。抛开数据的问题，硬件成本也是一个不菲的经费，从头训练一个大模型并不是几张3090显卡能做的。</p>
+<h2 id="大模型未来的方向">大模型未来的方向</h2>
+<p>大模型确实很火，但如果只是像借鉴大模型的大，借鉴它的深度学习架构，最后得到的也只是一个堆起来的transformer架构罢了，并没有从一个更新的方向去改进电力预测。真正可以下手的方向，我认为还是需要从语言模型入手，借鉴当前LLM发展的优势，以语言模型作为驱动器来驱动物理过程或计算过程。换句话说，大模型+电力的目标并不应该是提升一点点精度指标类似的事情，而应该着眼于实现更多工作的自动化。就像是NLP和CV的目标并不是要在说话上比人更好听，也不是要在识别物体上比人更准，更多的是将这些难以用数学规则表示的过程建模为一个可以自动化的过程，让这些过程不再受人的精力限制。这大概也是我理解的AGI的终极目标吧，即实现充分的自动化，而不是超越于人。</p>
+<p>若有不对之处，欢迎探讨。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%81%9A%E4%B8%8D%E4%BA%86%E7%94%B5%E5%8A%9B%E9%A2%84%E6%B5%8B"><span class="toc-number">1.</span> <span class="toc-text">为什么大模型做不了电力预测</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%9C%AA%E6%9D%A5%E7%9A%84%E6%96%B9%E5%90%91"><span class="toc-number">2.</span> <span class="toc-text">大模型未来的方向</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://bigdogmanluo.github.io/2024/04/19/thoughts-LM4Forecasting/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://bigdogmanluo.github.io/2024/04/19/thoughts-LM4Forecasting/&text=大模型+电力预测？"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://bigdogmanluo.github.io/2024/04/19/thoughts-LM4Forecasting/&title=大模型+电力预测？"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://bigdogmanluo.github.io/2024/04/19/thoughts-LM4Forecasting/&is_video=false&description=大模型+电力预测？"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=大模型+电力预测？&body=Check out this article: https://bigdogmanluo.github.io/2024/04/19/thoughts-LM4Forecasting/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://bigdogmanluo.github.io/2024/04/19/thoughts-LM4Forecasting/&title=大模型+电力预测？"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://bigdogmanluo.github.io/2024/04/19/thoughts-LM4Forecasting/&title=大模型+电力预测？"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://bigdogmanluo.github.io/2024/04/19/thoughts-LM4Forecasting/&title=大模型+电力预测？"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://bigdogmanluo.github.io/2024/04/19/thoughts-LM4Forecasting/&title=大模型+电力预测？"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://bigdogmanluo.github.io/2024/04/19/thoughts-LM4Forecasting/&name=大模型+电力预测？&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://bigdogmanluo.github.io/2024/04/19/thoughts-LM4Forecasting/&t=大模型+电力预测？"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2025
+    BigdogManLuo
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

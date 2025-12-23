@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="一个良好的预测工程是想用已观测的数据尽可能恢复出对应的物理系统找到数据产生的规律。理解预测工程可以先从理解如何创建一个完美的预测开始。我认为一个完美的预测有四个必要条件：  数据来源的物理系统是决定的，没有任何随机性。（可以认为是世界是决定论的） 物理系统接受的所有输入变量是完全准确可观的 用于建模预测的数据量足够多 数学模型与物理系统完全一致  （1）可以合理假设真实的物理世界是不具有随机性的而">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Try to Understand the Nature of Forecasts (2)">
+<meta property="og:url" content="https://bigdogmanluo.github.io/2025/08/30/undefined/the_nature_of_forecast2/index.html">
+<meta property="og:site_name" content="Try to Understand">
+<meta property="og:description" content="一个良好的预测工程是想用已观测的数据尽可能恢复出对应的物理系统找到数据产生的规律。理解预测工程可以先从理解如何创建一个完美的预测开始。我认为一个完美的预测有四个必要条件：  数据来源的物理系统是决定的，没有任何随机性。（可以认为是世界是决定论的） 物理系统接受的所有输入变量是完全准确可观的 用于建模预测的数据量足够多 数学模型与物理系统完全一致  （1）可以合理假设真实的物理世界是不具有随机性的而">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-08-29T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-31T23:41:50.839Z">
+<meta property="article:author" content="BigdogManLuo">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Try to Understand the Nature of Forecasts (2)</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="https://bigdogmanluo.github.io/academic-homepage/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2025/08/31/undefined/Liverpool/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/08/25/undefined/the_nature_of_forecast/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://bigdogmanluo.github.io/2025/08/30/undefined/the_nature_of_forecast2/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://bigdogmanluo.github.io/2025/08/30/undefined/the_nature_of_forecast2/&text=Try to Understand the Nature of Forecasts (2)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://bigdogmanluo.github.io/2025/08/30/undefined/the_nature_of_forecast2/&title=Try to Understand the Nature of Forecasts (2)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://bigdogmanluo.github.io/2025/08/30/undefined/the_nature_of_forecast2/&is_video=false&description=Try to Understand the Nature of Forecasts (2)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Try to Understand the Nature of Forecasts (2)&body=Check out this article: https://bigdogmanluo.github.io/2025/08/30/undefined/the_nature_of_forecast2/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://bigdogmanluo.github.io/2025/08/30/undefined/the_nature_of_forecast2/&title=Try to Understand the Nature of Forecasts (2)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://bigdogmanluo.github.io/2025/08/30/undefined/the_nature_of_forecast2/&title=Try to Understand the Nature of Forecasts (2)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://bigdogmanluo.github.io/2025/08/30/undefined/the_nature_of_forecast2/&title=Try to Understand the Nature of Forecasts (2)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://bigdogmanluo.github.io/2025/08/30/undefined/the_nature_of_forecast2/&title=Try to Understand the Nature of Forecasts (2)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://bigdogmanluo.github.io/2025/08/30/undefined/the_nature_of_forecast2/&name=Try to Understand the Nature of Forecasts (2)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://bigdogmanluo.github.io/2025/08/30/undefined/the_nature_of_forecast2/&t=Try to Understand the Nature of Forecasts (2)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Try to Understand the Nature of Forecasts (2)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">BigdogManLuo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-08-29T16:00:00.000Z" class="dt-published" itemprop="datePublished">2025-08-30</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Thoughts/">Thoughts</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>一个良好的预测工程是想用已观测的数据尽可能恢复出对应的物理系统找到数据产生的规律。理解预测工程可以先从理解如何创建一个完美的预测开始。我认为一个完美的预测有四个必要条件：</p>
+<ul>
+<li>数据来源的物理系统是决定的，没有任何随机性。（可以认为是世界是决定论的）</li>
+<li>物理系统接受的所有输入变量是完全准确可观的</li>
+<li>用于建模预测的数据量足够多</li>
+<li>数学模型与物理系统完全一致</li>
+</ul>
+<p>（1）可以合理假设真实的物理世界是不具有随机性的而是决定性的，任何的事情都可以用确定过程描述。就像是抛硬币，如果知道足够精确的初值，那么结果一定是被决定的。</p>
+<p>（2）之所以存在随机是因为对整个物理过程所需要的初值变量的观测不足。但由于不可能观测足够的初值，所以预测其实预测的是已观测变量下的条件概率，预测建模的过程也就可以顺势理解为是一个极大似然估计。</p>
+<p>（3）对于数据量，如果没有足够多的数据，那么模型就是过参数化的，一个建模问题就会是多解的。多套参数都可能fit到现有的数据上，但实际物理系统只有一套参数，过参数化的模型要搜索的空间巨大，因此可以认为训练到与实际物理系统一致的参数的概率为0（不等价于不可能事件）。这也可以解释为什么参数量小不容易过拟合，因为搜索难度更小，与实际物理系统参数趋近相似的概率越大。</p>
+<p>（4）对于模型，如果已知一个系统的模型，那么预测问题就变成了一个参数估计问题。但大多数系统是高度非线性的，例如混沌。在这个理想情况下，一个物理系统可以用很多种方式近似，比如三层的感知机模型、决策树。但这个时候泛化误差依然存在，仅来源于模型与实际物理过程的相似性。就像一个二次函数模型可以逼近但无法完全等价线性模型。</p>
+<p>未完待续…</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="https://bigdogmanluo.github.io/academic-homepage/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://bigdogmanluo.github.io/2025/08/30/undefined/the_nature_of_forecast2/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://bigdogmanluo.github.io/2025/08/30/undefined/the_nature_of_forecast2/&text=Try to Understand the Nature of Forecasts (2)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://bigdogmanluo.github.io/2025/08/30/undefined/the_nature_of_forecast2/&title=Try to Understand the Nature of Forecasts (2)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://bigdogmanluo.github.io/2025/08/30/undefined/the_nature_of_forecast2/&is_video=false&description=Try to Understand the Nature of Forecasts (2)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Try to Understand the Nature of Forecasts (2)&body=Check out this article: https://bigdogmanluo.github.io/2025/08/30/undefined/the_nature_of_forecast2/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://bigdogmanluo.github.io/2025/08/30/undefined/the_nature_of_forecast2/&title=Try to Understand the Nature of Forecasts (2)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://bigdogmanluo.github.io/2025/08/30/undefined/the_nature_of_forecast2/&title=Try to Understand the Nature of Forecasts (2)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://bigdogmanluo.github.io/2025/08/30/undefined/the_nature_of_forecast2/&title=Try to Understand the Nature of Forecasts (2)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://bigdogmanluo.github.io/2025/08/30/undefined/the_nature_of_forecast2/&title=Try to Understand the Nature of Forecasts (2)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://bigdogmanluo.github.io/2025/08/30/undefined/the_nature_of_forecast2/&name=Try to Understand the Nature of Forecasts (2)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://bigdogmanluo.github.io/2025/08/30/undefined/the_nature_of_forecast2/&t=Try to Understand the Nature of Forecasts (2)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2025
+    BigdogManLuo
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="https://bigdogmanluo.github.io/academic-homepage/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

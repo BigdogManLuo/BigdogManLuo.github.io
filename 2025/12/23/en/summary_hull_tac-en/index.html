@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="English Version 中文版 This post records my first experience crossing domains to participate in a large-scale quantitative trading competition—the Kaggle Hull Tactical Market Prediction, which attracted">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Solution of Market Prediction Competition:On Probabilistic Forecasting and Optimization, End-to-End Learning, and the Mindset of Forecasting Practice">
+<meta property="og:url" content="https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/index.html">
+<meta property="og:site_name" content="Try to Understand">
+<meta property="og:description" content="English Version 中文版 This post records my first experience crossing domains to participate in a large-scale quantitative trading competition—the Kaggle Hull Tactical Market Prediction, which attracted">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/walk_forward_score_distribution.png">
+<meta property="article:published_time" content="2025-12-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-12-23T08:10:17.906Z">
+<meta property="article:author" content="BigdogManLuo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/walk_forward_score_distribution.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Solution of Market Prediction Competition:On Probabilistic Forecasting and Optimization, End-to-End Learning, and the Mindset of Forecasting Practice</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="https://bigdogmanluo.github.io/academic-homepage/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/12/23/zh/summary_hull_tac-zh/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/&text=Solution of Market Prediction Competition:On Probabilistic Forecasting and Optimization, End-to-End Learning, and the Mindset of Forecasting Practice"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/&title=Solution of Market Prediction Competition:On Probabilistic Forecasting and Optimization, End-to-End Learning, and the Mindset of Forecasting Practice"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/&is_video=false&description=Solution of Market Prediction Competition:On Probabilistic Forecasting and Optimization, End-to-End Learning, and the Mindset of Forecasting Practice"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Solution of Market Prediction Competition:On Probabilistic Forecasting and Optimization, End-to-End Learning, and the Mindset of Forecasting Practice&body=Check out this article: https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/&title=Solution of Market Prediction Competition:On Probabilistic Forecasting and Optimization, End-to-End Learning, and the Mindset of Forecasting Practice"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/&title=Solution of Market Prediction Competition:On Probabilistic Forecasting and Optimization, End-to-End Learning, and the Mindset of Forecasting Practice"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/&title=Solution of Market Prediction Competition:On Probabilistic Forecasting and Optimization, End-to-End Learning, and the Mindset of Forecasting Practice"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/&title=Solution of Market Prediction Competition:On Probabilistic Forecasting and Optimization, End-to-End Learning, and the Mindset of Forecasting Practice"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/&name=Solution of Market Prediction Competition:On Probabilistic Forecasting and Optimization, End-to-End Learning, and the Mindset of Forecasting Practice&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/&t=Solution of Market Prediction Competition:On Probabilistic Forecasting and Optimization, End-to-End Learning, and the Mindset of Forecasting Practice"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Overview"><span class="toc-number">1.</span> <span class="toc-text">Overview</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Probabilistic-forecasting"><span class="toc-number">1.1.</span> <span class="toc-text">1) Probabilistic forecasting</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Single-step-position-optimization"><span class="toc-number">1.2.</span> <span class="toc-text">2) Single-step position optimization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Ensembling"><span class="toc-number">1.3.</span> <span class="toc-text">3) Ensembling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Hyperparameter-Tuning"><span class="toc-number">1.4.</span> <span class="toc-text">4) Hyperparameter Tuning</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Problem-Formulation"><span class="toc-number">2.</span> <span class="toc-text">Problem Formulation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Probabilistic-Forecasting"><span class="toc-number">3.</span> <span class="toc-text">Probabilistic Forecasting</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Feature-Engineering"><span class="toc-number">3.1.</span> <span class="toc-text">Feature Engineering</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Models-and-Targets"><span class="toc-number">3.2.</span> <span class="toc-text">Models and Targets</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ensemble"><span class="toc-number">3.3.</span> <span class="toc-text">Ensemble</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Optimization"><span class="toc-number">4.</span> <span class="toc-text">Optimization</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Pure-return-maximization"><span class="toc-number">4.1.</span> <span class="toc-text">1) Pure return maximization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Variance-penalized-objective-Sharpe-style-sizing"><span class="toc-number">4.2.</span> <span class="toc-text">2) Variance-penalized objective (Sharpe-style sizing)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-CVaR-tail-variance-and-turnover-penalties"><span class="toc-number">4.3.</span> <span class="toc-text">3) CVaR, tail variance, and turnover penalties</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Deriving-step-wise-penalties-from-rho-1-and-rho-2"><span class="toc-number">4.4.</span> <span class="toc-text">4) Deriving step-wise penalties from $\rho_1$ and $\rho_2$</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#a-Volatility-penalty-rho-1"><span class="toc-number">4.4.1.</span> <span class="toc-text">(a) Volatility penalty $\rho_1$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#b-Underperformance-penalty-rho-2"><span class="toc-number">4.4.2.</span> <span class="toc-text">(b) Underperformance penalty $\rho_2$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#c-Final-single-step-penalty"><span class="toc-number">4.4.3.</span> <span class="toc-text">c) Final single-step penalty</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Final-single-step-optimization-Problem"><span class="toc-number">4.5.</span> <span class="toc-text">Final single-step optimization Problem</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hyperparameter-Search"><span class="toc-number">5.</span> <span class="toc-text">Hyperparameter Search</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Evaluation-Results"><span class="toc-number">6.</span> <span class="toc-text">Evaluation Results</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#On-End-to-End-Learning-Value-Oriented"><span class="toc-number">7.</span> <span class="toc-text">On End-to-End Learning (Value-Oriented)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#On-Mindset"><span class="toc-number">8.</span> <span class="toc-text">On Mindset</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Solution of Market Prediction Competition:On Probabilistic Forecasting and Optimization, End-to-End Learning, and the Mindset of Forecasting Practice
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">BigdogManLuo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-12-22T16:00:00.000Z" class="dt-published" itemprop="datePublished">2025-12-23</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Articles/">Articles</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p><a href="/2025/12/23/en/summary_hull_tac-en/">English Version</a>
+<a href="/2025/12/23/zh/summary_hull_tac-zh/">中文版</a></p>
+<p>This post records my first experience crossing domains to participate in a large-scale quantitative trading competition—the Kaggle Hull Tactical Market Prediction, which attracted over 3,000 teams worldwide—and shares some reflections on my solution. Although I had previously participated in two formal time-series forecasting competitions, this was my first time facing a competition of this scale and intensity.</p>
+<p>The competition setup is quite similar to HEFTCom: a fully double-blind evaluation framework, where participants predict future stock market returns and adjust positions on a daily basis. Importantly, the task is not only about making predictions, but about making good decisions based on those predictions. As such, it goes beyond local machine-learning techniques and instead tests one’s ability to <strong>analyze the problem, formulate it properly, and build a coherent end-to-end solution.</strong></p>
+<p>In offline walk-forward backtesting, my approach achieved a Sharpe ratio of <strong>1.33 with relatively low variance</strong>, exceeding the market Sharpe benchmark by more than 15%. The core of the solution is <strong>probabilistic forecasting</strong>—including left-tail density regression and conditional variance modeling—combined with <strong>stochastic optimization</strong>. Inspired even by the “temporal pincer movement” in Christopher Nolan’s Tenet, I also developed an A/B strategy with risk-hedging characteristics. Regardless of the final leaderboard outcome, the process itself was deeply engaging and rewarding.</p>
+<p>Despite not being an expert in financial markets, I found that the real difficulty does not lie in market rules, but in the fact that <strong>financial markets are extremely hard to predict</strong>. No feature can meaningfully explain the target variable, and even in early fits the $R^2$ is often on the order of $10^{-4}$—essentially learning almost nothing in the classical sense. How to extract value from such noisy time series is a fascinating problem in itself.</p>
+<p>The key insights I gained from this competition are the following:</p>
+<p>In high-noise datasets, <strong>risk control is absolutely critical</strong>.</p>
+<p><strong>Extracting valuable predictive information and designing score-aligned decision rules are both indispensable</strong>—neither can be ignored.</p>
+<p>In the end, I found that probabilistic forecasting combined with uncertainty-aware optimization is a very effective toolkit for this type of problem. I also spent a large portion of my time on mathematical derivations. In contrast, many publicly shared Kaggle solutions focus mainly on machine-learning pipelines, without discussing the mathematical structure of the problem, and therefore do not leverage probabilistic forecasting or optimization. This gap is precisely why I believe this work is worth sharing.</p>
+<h2 id="Overview">Overview</h2>
+<p>Since the final decision variable in this competition is the <strong>position size</strong> $p_t$, the problem naturally fits into a <strong>predict-then-optimize</strong> framework: first extract as much <em>useful probabilistic information</em> as possible from data, and then design a decision rule that is <em>explicitly aligned with the competition score</em>.</p>
+<p>My solution consists of three tightly coupled components.</p>
+<h3 id="1-Probabilistic-forecasting">1) Probabilistic forecasting</h3>
+<p>Instead of relying on a single point prediction, I train a family of machine learning regression models to characterize the <em>conditional distribution</em> of market excess returns. Concretely, the models are used to predict:</p>
+<ul>
+<li>The conditional mean of excess return</li>
+<li>The conditional variance</li>
+<li>Multiple left-tail quantiles (used to approximate CVaR and other tail risk measures)</li>
+</ul>
+<p>The motivation is straightforward: in an extremely low signal-to-noise environment, point forecasts alone are fragile, while distributional information provides much richer signals for downstream risk-aware decision making.</p>
+<h3 id="2-Single-step-position-optimization">2) Single-step position optimization</h3>
+<p>The official competition score is defined over a rolling time window and involves non-linear, non-convex statistics (Sharpe ratio, volatility ratios, geometric means). Directly optimizing this window-based score is impractical.</p>
+<p>Instead, I derive a <strong>single-time-step surrogate optimization problem</strong> that approximates the dominant behavior of the score. The resulting objective explicitly incorporates:</p>
+<ul>
+<li>Variance penalty (Sharpe-style risk control)</li>
+<li>CVaR penalty (expected loss in the worst tail)</li>
+<li>Tail variance penalty (via conditional second moments)</li>
+<li>Multi-order turnover penalties to suppress excessive trading</li>
+<li>Explicit penalties aligned with the competition rules $\rho_1$ and $\rho_2$</li>
+</ul>
+<p>This step is where most of the mathematical derivation effort is spent: the goal is to translate a window-level evaluation metric into a tractable, stable, single-step decision problem.</p>
+<h3 id="3-Ensembling">3) Ensembling</h3>
+<p>In the final stage, I ensemble both <strong>models</strong> and <strong>strategies</strong>:</p>
+<ul>
+<li>Multiple ML models (LightGBM, CatBoost, XGBoost)</li>
+<li>Two types of trading logic:
+<ul>
+<li>A simple signal-based position rule （as the demo submission notebook provided)</li>
+<li>The derived optimization-based position policy</li>
+</ul>
+</li>
+</ul>
+<p>The ensemble weights are tuned using walk-forward validation to balance robustness and performance.</p>
+<h3 id="4-Hyperparameter-Tuning">4) Hyperparameter Tuning</h3>
+<p>All penalty weights, CVaR confidence levels, turnover orders, and ensemble coefficients are selected via <strong>walk-forward hyperparameter search</strong>, ensuring that the final solution is not only high-scoring but also stable across time.</p>
+<h2 id="Problem-Formulation">Problem Formulation</h2>
+<p>At trading day $t$, we define:</p>
+<ul>
+<li>Position: $p_t$</li>
+<li>Market return: $r_t^m$</li>
+<li>Risk-free rate: $r_t^f$</li>
+<li>Market excess return: $e_t^m = r_t^m - r_t^f$</li>
+</ul>
+<p>Then the strategy return is
+$$
+r_t^s = r_t^f(1 - p_t) + p_t r_t^m = p_t e_t^m + r_t^f,
+$$
+and the strategy excess return is
+$$
+e_t^s = r_t^s - r_t^f = p_t e_t^m.
+$$</p>
+<p>The Sharpe ratio (the most important metric in this competition) is defined as</p>
+<p>$$\text{Sharp}=
+\frac{
+\left(\prod_{t=1}^{T}(1+e_t^s)\right)^{\frac{1}{T}} - 1
+}{
+\operatorname{std}({r_t^s}_{t=1}^{T})
+}
+\sqrt{252}.
+$$
+That is, annualized mean excess return divided by the standard deviation of daily returns.</p>
+<p>The final competition score applies two penalties to the Sharpe ratio:</p>
+<ul>
+<li><strong>Volatility penalty</strong>: if annualized strategy volatility exceeds $1.2\times$ market volatility, the excess part is penalized linearly:</li>
+</ul>
+
+$$
+\rho_1=1+\max(0,\frac{std(\{r_t^s\})_{t=1}^T}{std(\{r_t^m\})_{t=1}^T}-1.2)
+$$
+
+<ul>
+<li><strong>Underperformance penalty</strong>: the strategy cannot “sit in cash and earn interest” while consistently underperforming the market:<br>
+$$\rho_2=
+1 + 0.01 \max\left(
+0,
+\left[
+\left(\prod_{t=1}^{T}(1+e_t^m)\right)^{\frac{1}{T}}-
+\left(\prod_{t=1}^{T}(1+e_t^s)\right)^{\frac{1}{T}}
+\right]
+\cdot 252 \cdot 100
+\right).
+$$</li>
+</ul>
+<p>The final score is</p>
+
+$$
+\text{Score}=
+\frac{1}{\rho_1}\cdot\frac{1}{\rho_2}\cdot\text{Sharpe}.
+$$
+
+<p>From these equations, we can see that $e_t^m$ is a random variable, while $p_t$ is the decision variable.<br>
+The score is mainly driven by $e_t^s(t=1,\dots,T)$ and $\mathrm{std}(r_t^s)(t=1,\dots,T)$: we want <strong>high returns with low variance</strong>.</p>
+<hr>
+<h2 id="Probabilistic-Forecasting">Probabilistic Forecasting</h2>
+<p>I didn’t spend excessive effort on the forecasting pipeline, mainly because the explanatory power of features severely limits the upper bound of predictability. Also, my domain knowledge of financial markets is limited, so the forecasting part is intentionally kept lightweight and robust.</p>
+<p>The core idea here is <strong>not</strong> to chase a highly accurate point forecast, but to extract as much <em>distributional information</em> as possible from weak signals, which is far more useful for downstream risk-aware decision making.</p>
+<h3 id="Feature-Engineering">Feature Engineering</h3>
+<ul>
+<li>Log-mapping of <code>date_id</code> to capture long-term trends</li>
+<li>Fourier encodings with periods of 5, 21, 63, and 252 trading days to model multi-scale seasonality</li>
+<li>Missing indicators + dummy values for early macro and sentiment signals</li>
+<li>Removal of highly collinear features to stabilize tree-based models</li>
+</ul>
+<h3 id="Models-and-Targets">Models and Targets</h3>
+<p>Let $e_t^m$ denote the market excess return. Instead of modeling only its conditional mean, I decompose the forecasting task into <strong>multiple regression problems</strong> targeting different aspects of the conditional distribution:</p>
+<ol>
+<li>
+<p><strong>Conditional mean</strong></p>
+<p>A standard regression model is trained with MAE loss:
+$$
+\mu_t = \mathbb{E}[e_t^m \mid \mathcal{F}_t],
+$$
+where $\mathcal{F}_t$ denotes the available features at time $t$.</p>
+</li>
+<li>
+<p><strong>Conditional variance</strong></p>
+<p>After fitting the mean model, I compute residuals
+$$
+\varepsilon_t = e_t^m - \mu_t,
+$$
+and train a second model to predict the conditional variance:
+$$
+\sigma_t^2 \approx \mathbb{E}[\varepsilon_t^2 \mid \mathcal{F}_t].
+$$</p>
+<p>This explicitly separates <em>directional signal</em> from <em>uncertainty magnitude</em>.</p>
+</li>
+<li>
+<p><strong>Tail quantiles (for CVaR estimation)</strong></p>
+<p>Multiple quantile regression models are trained for tail levels $\alpha_1,\ldots,\alpha_M$:
+$$
+q_{\alpha,t} = \inf{x:\mathbb{P}(e_t^m \le x \mid \mathcal{F}_t)\ge \alpha}.
+$$</p>
+</li>
+</ol>
+<p>Overall, this setup aims to <strong>maximize the utility of weak predictability</strong>:<br>
+improving feature explainability on one hand, and enriching the target’s distributional description on the other.</p>
+<h3 id="Ensemble">Ensemble</h3>
+<p>All regression tasks (mean, variance, and quantiles) are implemented using an ensemble of:</p>
+<ul>
+<li>LightGBM</li>
+<li>CatBoost</li>
+<li>XGBoost</li>
+</ul>
+<p>These models are chosen mainly for convenience and robustness, especially their ability to handle missing values natively. For simplicity and stability, I use the <strong>same ensemble weights across all quantile levels</strong>, which worked well in practice and avoided unnecessary degrees of freedom.</p>
+<hr>
+<h2 id="Optimization">Optimization</h2>
+<h3 id="1-Pure-return-maximization">1) Pure return maximization</h3>
+<p>If we only consider maximizing expected excess return, the single-step problem is</p>
+<p>$$
+\max_{p_t} \mathbb{E}[e_t^s]=
+\max_{p_t} p_t \mu_t,
+$$
+where $\mu_t = \mathbb{E}[e_t^m]$ is the predicted mean excess return.</p>
+<p>Because the objective is linear in $p_t$, taking the derivative implies a boundary solution:</p>
+<ul>
+<li>If $\mu_t &lt; 0$, choose $p_t = 0$ (do not trade).</li>
+<li>If $\mu_t &gt; 0$, push $p_t$ to the upper bound (e.g., $p_t = 2$).</li>
+</ul>
+<p>This explains why naive “maximize return” sizing tends to produce extreme positions (either no trade or all-in).</p>
+<h3 id="2-Variance-penalized-objective-Sharpe-style-sizing">2) Variance-penalized objective (Sharpe-style sizing)</h3>
+<p>Introducing variance penalty yields a Sharpe-like surrogate:
+$$
+\max_{p_t}
+p_t \mu_t - \lambda_{\text{var}} p_t^2 \sigma_t^2,
+$$
+where $\sigma_t^2 = \operatorname{Var}(e_t^m)$ is the predicted conditional variance.</p>
+<p>Now the decision variable appears as a quadratic term, and the unconstrained optimum becomes
+$$
+p_t^\star = \frac{\mu_t}{2\lambda_{\text{var}}\sigma_t^2}.
+$$</p>
+<p>Compared to pure return maximization, this already prevents extreme leverage and yields smoother position sizing.</p>
+<h3 id="3-CVaR-tail-variance-and-turnover-penalties">3) CVaR, tail variance, and turnover penalties</h3>
+<p>Building on the variance-penalized formulation, I further incorporate a downside tail risk penalty (CVaR), a tail “volatility” penalty (via conditional second moments in the left tail), and higher-order lagged turnover penalties to smooth trading dynamics. The practical single-step objective is:</p>
+
+$$
+\begin{aligned}
+\max_{p_t}\quad
+& p_t \mu_t
+- \lambda_{\mathrm{var}} p_t^2 \sigma_t^2
+- \lambda_{\mathrm{cvar}} p_t\, \mathrm{CVaR}_\alpha(e_t^m) \\
+& - \lambda_{\mathrm{tail}} p_t^2 \mathbb{E}\!\left[(e_t^m)^2 \mid e_t^m \le q_\alpha\right]
+- \lambda_k \left|p_t - \frac{1}{K}\sum_{k=1}^{K} p_{t-k}\right|.
+\end{aligned}
+$$
+
+<p>Here $q_\alpha$ is the (left-tail) $\alpha$-quantile of $e_t^m$ (i.e., VaR at level $\alpha$), and the CVaR term is defined as the conditional expectation in the worst $\alpha$ fraction of outcomes:</p>
+
+$$
+\text{CVaR}_\alpha(e_t^m)=\mathbb{E}\!\left[e_t^m \mid e_t^m \le q_\alpha\right].
+$$
+
+<p>In practice, I estimate $q_\alpha$ and $\mathrm{CVaR}<em>\alpha$ from my <strong>multiple quantile regression models</strong>. Suppose the models output conditional quantile forecasts $\hat q</em>{\beta,t}\approx q_\beta(e_t^m| \mathcal{F}_t)$ for a grid of tail levels $\beta\in(0,\alpha]$ (e.g., several small quantiles up to $\alpha$). Then I use the standard identity that CVaR can be written as an average of tail quantiles:</p>
+
+$$
+\text{CVaR}_\alpha(X)=\frac{1}{\alpha}\int_{0}^{\alpha} q_u(X)\,du,
+$$
+
+<p>and approximate it numerically using the predicted quantiles:</p>
+
+$$
+\widehat{\text{CVaR}}_{\alpha,t}\approx \frac{1}{\alpha}\sum_{j=1}^{M}\hat q_{\beta_j,t}\,\Delta\beta_j,
+\quad \Delta\beta_j=\beta_j-\beta_{j-1},\ \beta_M=\alpha.
+$$
+
+<p>Similarly, the tail variance proxy is implemented via the conditional second moment in the left tail. Using the same quantile-grid approximation,</p>
+
+$$
+\mathbb{E}\!\left[X^2\mid X\le q_\alpha\right]=\frac{1}{\alpha}\int_{0}^{\alpha} q_u(X)^2\,du
+\ \Rightarrow\
+\widehat{m}_{2,\alpha,t}\approx \frac{1}{\alpha}\sum_{j=1}^{M}\hat q_{\beta_j,t}^2\,\Delta\beta_j.
+$$
+
+<p>Overall, these tail-aware penalties (CVaR + tail second moment) prevent the optimizer from taking aggressive positions when the predicted downside tail is heavy, while the turnover terms suppress “chasing noise”. Together, they substantially stabilize the position path and improve realized Sharpe under short evaluation windows.</p>
+<h3 id="4-Deriving-step-wise-penalties-from-rho-1-and-rho-2">4) Deriving step-wise penalties from $\rho_1$ and $\rho_2$</h3>
+<p>Even though $\rho_1$ and $\rho_2$ are window-based and non-convex (ratios of std, geometric means), we can derive simple single-step hinge penalties that mimic their dominant effects.</p>
+<h4 id="a-Volatility-penalty-rho-1">(a) Volatility penalty $\rho_1$</h4>
+<p>Recall
+$$
+\rho
+1 + \max!\left(
+0,
+\frac{\operatorname{std}({r_t^s}<em>{t=1}^{T})}
+{\operatorname{std}({r_t^m}</em>{t=1}^{T})}-1.2
+\right).
+$$</p>
+<p>Since $r_t^s = r_t^f + p_t e_t^m$ and $r_t^f$ is approximately constant within the window,
+$$
+\frac{\operatorname{std}({r_t^s})}{\operatorname{std}({r_t^m})}
+\approx
+\frac{\operatorname{std}({p_t e_t^m})}{\operatorname{std}({e_t^m})}.
+$$</p>
+<p>Let $x_t = e_t^m$ and $w_t = p_t$. Using
+$$
+\operatorname{std}^2(w x) = \mathbb{E}[w^2 x^2] - \big(\mathbb{E}[w x]\big)^2,
+$$
+and the usual daily-return approximation that $\mathbb{E}[x]$ is small (so $\big(\mathbb{E}[w x]\big)^2$ is second-order), we take
+$$
+\operatorname{std}^2(w x) \approx \mathbb{E}[w^2 x^2].
+$$</p>
+<p>If $w_t$ varies slowly and is weakly correlated with $x_t^2$ in the window,
+$$
+\mathbb{E}[w^2 x^2] \approx \mathbb{E}[w^2]\mathbb{E}[x^2].
+$$</p>
+<p>Therefore,
+$$
+\operatorname{std}(p_t e_t^m)
+\approx
+\sqrt{\mathbb{E}[p_t^2]}\sqrt{\mathbb{E}[(e_t^m)^2]},
+\quad
+\operatorname{std}(e_t^m)\approx \sqrt{\mathbb{E}[(e_t^m)^2]},
+$$
+so the ratio becomes
+$$
+\frac{\operatorname{std}(r_t^s)}{\operatorname{std}(r_t^m)}
+\approx
+\sqrt{\mathbb{E}[p_t^2]}.
+$$</p>
+<p>This shows $\rho_1$ is essentially penalizing the RMS position exceeding $1.2$.<br>
+A conservative single-step surrogate is to softly penalize positions above $1.2$:
+$$
+\text{pen}_1(p_t) = \lambda_1\max(p_t-1.2,0).
+$$</p>
+<h4 id="b-Underperformance-penalty-rho-2">(b) Underperformance penalty $\rho_2$</h4>
+<p>Recall
+$$
+\rho_2=
+1+0.01 \max!\left(
+0,
+\left[
+\left(\prod_{t=1}^{T}(1+e_t^m)\right)^{\frac{1}{T}}
+\left(\prod_{t=1}^{T}(1+e_t^s)\right)^{\frac{1}{T}}
+\right]
+\cdot 252 \cdot 100
+\right),
+$$
+where $e_t^s = p_t e_t^m$.</p>
+<p>Define geometric mean growth rates
+$$
+G_m = \left(\prod_{t=1}^{T}(1+e_t^m)\right)^{\frac{1}{T}},
+\quad
+G_s = \left(\prod_{t=1}^{T}(1+e_t^s)\right)^{\frac{1}{T}}.
+$$</p>
+<p>Use log transform:
+$$
+\log G = \frac{1}{T}\sum_{t=1}^{T}\log(1+e_t).
+$$</p>
+<p>Then
+$$
+\Delta := \log G_m - \log G_s=
+\frac{1}{T}\sum_{t=1}^{T}\left[\log(1+e_t^m)-\log(1+p_t e_t^m)\right].
+$$</p>
+<p>For daily returns, $|e_t^m|\ll 1$, so apply the Taylor expansion
+$$
+\log(1+z)=z-\frac{z^2}{2}+O(z^3).
+$$</p>
+<p>Thus
+$$
+\log(1+e_t^m)-\log(1+p_t e_t^m)
+\approx
+(1-p_t)e_t^m-\frac{1-p_t^2}{2}(e_t^m)^2,
+$$
+and
+$$
+\Delta
+\approx
+\frac{1}{T}\sum_{t=1}^{T}(1-p_t)e_t^m-
+\frac{1}{2T}\sum_{t=1}^{T}(1-p_t^2)(e_t^m)^2.
+$$</p>
+<p>The first term is first-order in $e_t^m$ and usually dominates at daily frequency.<br>
+Assuming the market has positive long-run excess returns (so the window-average of $e_t^m$ is positive), the sign of the dominant term is mainly controlled by $(1-p_t)$:</p>
+<ul>
+<li>If $p_t&lt;1$, then $(1-p_t)&gt;0$, so $\Delta&gt;0$ and $G_m&gt;G_s$ (strategy underperforms market)</li>
+<li>If $p_t&gt;1$, then $(1-p_t)&lt;0$, so $\Delta&lt;0$ and typically $G_s\ge G_m$ (no underperformance)</li>
+</ul>
+<p>Finally, map back from log space to level space. Since $G=\exp(\log G)$, for small $\Delta$,
+$$
+G_m - G_s \approx G_s,(e^\Delta-1)\approx G_s,\Delta.
+$$</p>
+<p>All constants (including $0.01\times252\times100$ and the scale of $G_s$) can be absorbed into a tunable weight, giving a practical single-step surrogate that penalizes under-investment:
+$$
+\text{pen}_2(p_t)=\lambda_2\max(1-p_t,0).
+$$</p>
+<h4 id="c-Final-single-step-penalty">c) Final single-step penalty</h4>
+<p>Putting the two surrogates together, the final single-step penalty is
+$$
+\lambda_{1}\max(p_t-1.2,0)+\lambda_{2}\max(1-p_t,0).
+$$</p>
+<h3 id="Final-single-step-optimization-Problem">Final single-step optimization Problem</h3>
+<p>Combining all components, the final single-step optimization problem is
+$$
+\max_{p_t} \mathcal{J}(p_t)=
+p_t \mu_t
+-\lambda_{\text{var}} p_t^2 \sigma_t^2
+-\lambda_{\text{cvar}} p_t ,\widehat{\text{CVaR}}<em>{\alpha,t}
+-\lambda</em>{\text{tail}} p_t^2 \widehat{m}_{2,\alpha,t}
+$$</p>
+<p>$$
+-\lambda_k |p_t - \frac{1}{K}\sum_{k=1}^{K} p_{t-k}|
+-\lambda_{1}\max(p_t-1.2,0)
+-\lambda_{2}\max(1-p_t,0).
+$$</p>
+<p>The full objective becomes non-convex but is still a univariate optimization problem in $p_t$.<br>
+Using Big-M + MIP solvers would be overkill, so I simply used grid search, which is robust and fast in practice.</p>
+<hr>
+<h2 id="Hyperparameter-Search">Hyperparameter Search</h2>
+<p>The derivation maps a window-based score into a single-step optimization formulation, but many hyperparameters remain to be tuned (e.g., penalty weights, CVaR confidence level, turnover order, etc.).</p>
+<p>Since lagged features are used, I applied walk-forward evaluation and optimized the following stability-aware objective:
+$$
+\max_{\theta}\left(
+\mathbb{E}<em>{\text{folds}}[\text{Score}(\theta)]-
+\gamma\cdot
+\max!\left(
+\operatorname{Var}</em>{\text{folds}}[\text{Score}(\theta)],
+\tau
+\right)
+\right),
+$$
+where $\theta$ denotes hyperparameters, $\gamma$ controls the strength of stability regularization, and $\tau$ is a variance floor to avoid overly small variance estimates dominating the objective.</p>
+<p>This explicitly trades off high average score and low variance across folds.</p>
+<h2 id="Evaluation-Results">Evaluation Results</h2>
+<p>Walk-forward backtesting was conducted on the public training set provided by the competition. The initial training window length was 5,186 observations, and the validation window covered 125 trading days. The final version of the solution achieved the following results across all folds:</p>
+<p><img src="/2025/12/23/en/summary_hull_tac-en/walk_forward_score_distribution.png" alt="scores in walk-forward backtesting"></p>
+<h2 id="On-End-to-End-Learning-Value-Oriented">On End-to-End Learning (Value-Oriented)</h2>
+<p>End-to-end predict-then-optimize learning is definitely trending, but after several rounds of forecasting practice, I’ve come to feel that it’s still very hard to <em>truly</em> train a forecasting model directly on <strong>decision value</strong> in settings like this competition.</p>
+<p>A major obstacle is that this is essentially a <strong>single-step prediction + decision</strong> problem, while the evaluation is a <strong>window-level score</strong> (Sharpe with non-linear penalties). In such a setting, we usually cannot write the decision value as a clean closed-form objective, nor can we cast it as a convex optimization problem. That means we cannot clearly answer a fundamental question: <em>what is the actual marginal “value” of improving a one-step forecast by some amount?</em></p>
+<p>Another issue is the additional complexity introduced by end-to-end training. Replacing highly efficient ML frameworks (e.g., gradient boosting) with an end-to-end pipeline that embeds a decision model often makes the workflow significantly heavier, while paradoxically making it harder to learn a simple and reasonable representation. As I mentioned in my earlier post, a regression model’s representation should arguably be <strong>as simple as possible</strong>—everything else is basically feature engineering.</p>
+<p>That said, <em>forecast value</em> is still a fascinating topic. In equity markets, even when the $R^2$ hovers around zero, the signal can still be economically meaningful and monetizable, which is honestly quite magical. Also, even if we don’t train the forecasting model in a value-oriented way, we can still evaluate <strong>hyperparameters</strong> by decision performance—and this is extremely practical. Hyperparameter search is fundamentally heuristic anyway (trial-based optimization rather than a fully modelable objective), so it makes perfect sense that the target is no longer just predictive accuracy, but rather <strong>decision utility</strong>.</p>
+<p>In summary, my current belief is:</p>
+<ul>
+<li><strong>Model parameters</strong> should be trained with efficient frameworks using simple, smooth statistical losses (e.g., MAE/quantile loss), and</li>
+<li><strong>Hyperparameters</strong> can be tuned with trial-based methods directly on decision metrics (score/utility),
+because the hyperparameter space is much smaller, and the complexity of full end-to-end training is far more manageable at that level than at the parameter level.</li>
+</ul>
+<h2 id="On-Mindset">On Mindset</h2>
+<p>One last thing that feels worth sharing is the mindset required for forecasting practice. With a limited dataset, weak predictability, and a short online evaluation window, this is still a competition heavily driven by randomness. Sometimes it even makes you question time-series forecasting itself: <em>will what we predict really remain valid in the future?</em> I don’t think any forecaster can guarantee that.</p>
+<p>When you finally finish building a solution and see good offline results, you feel happy—but also strangely powerless. Even if you beat the market on average, those folds with ridiculously bad scores can still make you doubt the whole craft and feel discouraged. This is, in the end, a statistical game: no method can make every single sample point “good.” Trying to make everything “all the best” is often just the trap of overfitting. The real question is: <em>will tomorrow be one of those bad samples?</em> No one knows.</p>
+<p>Indeed, discussion board  is full of comments saying this is a luck-driven competition, and I agree that the final leaderboard can be extremely noisy due to the short test window. However, the only thing we can do is to keep analyzing the data, deriving better theory, refining algorithms, and improving statistical performance. Don’t get overly excited by a lucky sample, and don’t let a bad sample ruin your mental state. Trust the power of statistics—only time will tell. Maybe that’s what “faith in forecasting” means.</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="https://bigdogmanluo.github.io/academic-homepage/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Overview"><span class="toc-number">1.</span> <span class="toc-text">Overview</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Probabilistic-forecasting"><span class="toc-number">1.1.</span> <span class="toc-text">1) Probabilistic forecasting</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Single-step-position-optimization"><span class="toc-number">1.2.</span> <span class="toc-text">2) Single-step position optimization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Ensembling"><span class="toc-number">1.3.</span> <span class="toc-text">3) Ensembling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Hyperparameter-Tuning"><span class="toc-number">1.4.</span> <span class="toc-text">4) Hyperparameter Tuning</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Problem-Formulation"><span class="toc-number">2.</span> <span class="toc-text">Problem Formulation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Probabilistic-Forecasting"><span class="toc-number">3.</span> <span class="toc-text">Probabilistic Forecasting</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Feature-Engineering"><span class="toc-number">3.1.</span> <span class="toc-text">Feature Engineering</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Models-and-Targets"><span class="toc-number">3.2.</span> <span class="toc-text">Models and Targets</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ensemble"><span class="toc-number">3.3.</span> <span class="toc-text">Ensemble</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Optimization"><span class="toc-number">4.</span> <span class="toc-text">Optimization</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Pure-return-maximization"><span class="toc-number">4.1.</span> <span class="toc-text">1) Pure return maximization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Variance-penalized-objective-Sharpe-style-sizing"><span class="toc-number">4.2.</span> <span class="toc-text">2) Variance-penalized objective (Sharpe-style sizing)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-CVaR-tail-variance-and-turnover-penalties"><span class="toc-number">4.3.</span> <span class="toc-text">3) CVaR, tail variance, and turnover penalties</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Deriving-step-wise-penalties-from-rho-1-and-rho-2"><span class="toc-number">4.4.</span> <span class="toc-text">4) Deriving step-wise penalties from $\rho_1$ and $\rho_2$</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#a-Volatility-penalty-rho-1"><span class="toc-number">4.4.1.</span> <span class="toc-text">(a) Volatility penalty $\rho_1$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#b-Underperformance-penalty-rho-2"><span class="toc-number">4.4.2.</span> <span class="toc-text">(b) Underperformance penalty $\rho_2$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#c-Final-single-step-penalty"><span class="toc-number">4.4.3.</span> <span class="toc-text">c) Final single-step penalty</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Final-single-step-optimization-Problem"><span class="toc-number">4.5.</span> <span class="toc-text">Final single-step optimization Problem</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hyperparameter-Search"><span class="toc-number">5.</span> <span class="toc-text">Hyperparameter Search</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Evaluation-Results"><span class="toc-number">6.</span> <span class="toc-text">Evaluation Results</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#On-End-to-End-Learning-Value-Oriented"><span class="toc-number">7.</span> <span class="toc-text">On End-to-End Learning (Value-Oriented)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#On-Mindset"><span class="toc-number">8.</span> <span class="toc-text">On Mindset</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/&text=Solution of Market Prediction Competition:On Probabilistic Forecasting and Optimization, End-to-End Learning, and the Mindset of Forecasting Practice"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/&title=Solution of Market Prediction Competition:On Probabilistic Forecasting and Optimization, End-to-End Learning, and the Mindset of Forecasting Practice"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/&is_video=false&description=Solution of Market Prediction Competition:On Probabilistic Forecasting and Optimization, End-to-End Learning, and the Mindset of Forecasting Practice"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Solution of Market Prediction Competition:On Probabilistic Forecasting and Optimization, End-to-End Learning, and the Mindset of Forecasting Practice&body=Check out this article: https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/&title=Solution of Market Prediction Competition:On Probabilistic Forecasting and Optimization, End-to-End Learning, and the Mindset of Forecasting Practice"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/&title=Solution of Market Prediction Competition:On Probabilistic Forecasting and Optimization, End-to-End Learning, and the Mindset of Forecasting Practice"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/&title=Solution of Market Prediction Competition:On Probabilistic Forecasting and Optimization, End-to-End Learning, and the Mindset of Forecasting Practice"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/&title=Solution of Market Prediction Competition:On Probabilistic Forecasting and Optimization, End-to-End Learning, and the Mindset of Forecasting Practice"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/&name=Solution of Market Prediction Competition:On Probabilistic Forecasting and Optimization, End-to-End Learning, and the Mindset of Forecasting Practice&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/&t=Solution of Market Prediction Competition:On Probabilistic Forecasting and Optimization, End-to-End Learning, and the Mindset of Forecasting Practice"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2025
+    BigdogManLuo
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="https://bigdogmanluo.github.io/academic-homepage/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

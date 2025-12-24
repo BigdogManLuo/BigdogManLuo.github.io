@@ -6,16 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="English Version 中文版 记录第一次跨界参加超过全球三千支队伍的量化交易竞赛（Kaggle Hull-Tactical Market Prediction）的经历，并分享一下我的方案。虽然此前已经参加过两次正式的时间序列预测竞赛(且都拿到了冠军)，但是这么大规模、竞争激烈的比赛还是头一次。 这场比赛与HEFTCom的赛制相似，完全双盲的评估（预测未来的股票市场收益率并每日调整仓位）。">
+    <meta name="description" content="English Version 中文版 记录第一次跨界参加超过全球三千支队伍的量化交易竞赛（the Kaggle Hull Tactical Market Prediction）的经历，并分享一下我的方案。虽然此前已经参加过两次正式的时间序列预测竞赛(且都拿到了冠军)，但是这么大规模、竞争激烈的比赛还是头一次。 这场比赛与HEFTCom的赛制相似，完全双盲的评估（预测未来的股票市场收益率并每日调整">
 <meta property="og:type" content="article">
 <meta property="og:title" content="第一次参加量化交易竞赛的方案分享：关于概率预测与优化、端对端学习、与预测实践的心态">
 <meta property="og:url" content="https://bigdogmanluo.github.io/2025/12/23/zh/summary_hull_tac-zh/index.html">
 <meta property="og:site_name" content="Try to Understand">
-<meta property="og:description" content="English Version 中文版 记录第一次跨界参加超过全球三千支队伍的量化交易竞赛（Kaggle Hull-Tactical Market Prediction）的经历，并分享一下我的方案。虽然此前已经参加过两次正式的时间序列预测竞赛(且都拿到了冠军)，但是这么大规模、竞争激烈的比赛还是头一次。 这场比赛与HEFTCom的赛制相似，完全双盲的评估（预测未来的股票市场收益率并每日调整仓位）。">
+<meta property="og:description" content="English Version 中文版 记录第一次跨界参加超过全球三千支队伍的量化交易竞赛（the Kaggle Hull Tactical Market Prediction）的经历，并分享一下我的方案。虽然此前已经参加过两次正式的时间序列预测竞赛(且都拿到了冠军)，但是这么大规模、竞争激烈的比赛还是头一次。 这场比赛与HEFTCom的赛制相似，完全双盲的评估（预测未来的股票市场收益率并每日调整">
 <meta property="og:locale">
 <meta property="og:image" content="https://bigdogmanluo.github.io/2025/12/23/zh/summary_hull_tac-zh/walk_forward_score_distribution.png">
 <meta property="article:published_time" content="2025-12-22T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-12-23T09:20:37.184Z">
+<meta property="article:modified_time" content="2025-12-24T15:09:46.587Z">
 <meta property="article:author" content="BigdogManLuo">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://bigdogmanluo.github.io/2025/12/23/zh/summary_hull_tac-zh/walk_forward_score_distribution.png">
@@ -171,7 +171,7 @@
   <div class="content e-content" itemprop="articleBody">
     <p><a href="/2025/12/23/en/summary_hull_tac-en/">English Version</a>
 <a href="/2025/12/23/zh/summary_hull_tac-zh/">中文版</a></p>
-<p>记录第一次跨界参加超过全球三千支队伍的量化交易竞赛（Kaggle Hull-Tactical Market Prediction）的经历，并分享一下我的方案。虽然此前已经参加过两次正式的时间序列预测竞赛(且都拿到了冠军)，但是这么大规模、竞争激烈的比赛还是头一次。</p>
+<p>记录第一次跨界参加超过全球三千支队伍的量化交易竞赛（<a target="_blank" rel="noopener" href="https://www.kaggle.com/competitions/hull-tactical-market-prediction">the Kaggle Hull Tactical Market Prediction</a>）的经历，并分享一下我的方案。虽然此前已经参加过两次正式的时间序列预测竞赛(且都拿到了冠军)，但是这么大规模、竞争激烈的比赛还是头一次。</p>
 <p>这场比赛与HEFTCom的赛制相似，完全双盲的评估（预测未来的股票市场收益率并每日调整仓位）。不仅需要作做出预测，更重要的是做出足够好的决策。这也不仅考验机器学习的局部技术，更重要的对问题分析、构建、构建端到端的方案的考验。在离线的walk-forward回测中，我的方案以较小的方差达到了1.33的夏普率，超过了15%的市场夏普基准。解决方案的主体是概率预测（对左尾部概率密度回归和条件方差回归）+随机优化。甚至受诺兰电影《信条》时间钳形战术的启发，还开发了具有风险对冲性质的AB方案。不管结果如何，实战的过程已经是酣畅淋漓了。</p>
 <p>虽然不太懂金融市场，但真正的难点并非在市场规则本身，而是在于金融市场的可预测性非常差，没有任何特征能很好解释目标变量，甚至在初步的拟合中，R^2仅在1e-4的数量级，几乎是什么都没学会。如何从噪声时间序列中挖掘价值也是一个有趣的命题。从这场比赛收获的关键的insight是，在高噪声的数据集中，如何控制策略的风险很重要；此外，如何挖掘有价值的预测、如何构建面向评分的决策，两个环节缺一不可。最后发现，概率预测+不确定优化其实是非常有效的工具，这个比赛我的大部分时间也消耗在了数学推导上。kaggle上公开的大部分方案主要只关注了机器学习的管道建模，但并没有涉及问题的数学性质，故也没有用到概率预测、优化。这也是我认为值得分享的意义之一。</p>
 <h2 id="比赛背景">比赛背景</h2>
@@ -224,7 +224,7 @@
 </ul>
 <p>集成权重通过 walk-forward 验证进行调优，以在稳健性与性能之间取得平衡。</p>
 <h3 id="4）超参数调优（Hyperparameter-Tuning）">4）超参数调优（Hyperparameter Tuning）</h3>
-<p>所有惩罚权重、CVaR 置信水平、换手阶数以及集成系数，均通过 <strong>walk-forward 超参数搜索</strong> 进行选择，从而确保最终方案不仅得分高，而且在时间维度上表现稳定。</p>
+<p>所有惩罚权重、CVaR 置信水平、换手阶数以及集成系数，均通过 <strong>walk-forward 超参数搜索</strong> 进行选择，从而确保最终方案不仅需要在所有folds上得分高，而且所有folds上的方差也需要得到足够的抑制。这里搜索的超参数主要是优化模型层面的，是为了确定formulation上的具体参数。而ML模型(LightGBM,Catboost,Xgboost)的超参数并没有进行搜索。动机也还是有因为预测层面能做的工作有限，而优化模型的超参数是真正确定一个好的策略的关键。</p>
 <h2 id="问题建模">问题建模</h2>
 <p>在交易日 $t$，定义：</p>
 <ul>

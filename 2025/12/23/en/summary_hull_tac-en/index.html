@@ -15,7 +15,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/walk_forward_score_distribution.png">
 <meta property="article:published_time" content="2025-12-22T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-12-24T15:11:24.972Z">
+<meta property="article:modified_time" content="2025-12-25T08:11:00.211Z">
 <meta property="article:author" content="BigdogManLuo">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://bigdogmanluo.github.io/2025/12/23/en/summary_hull_tac-en/walk_forward_score_distribution.png">
@@ -122,7 +122,7 @@
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Competition-Background"><span class="toc-number">1.</span> <span class="toc-text">Competition Background</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Probabilistic-Forecasting"><span class="toc-number">2.</span> <span class="toc-text">Probabilistic Forecasting</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Feature-Engineering"><span class="toc-number">2.1.</span> <span class="toc-text">Feature Engineering</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Models-and-Targets"><span class="toc-number">2.2.</span> <span class="toc-text">Models and Targets</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ensemble"><span class="toc-number">2.3.</span> <span class="toc-text">Ensemble</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Optimization"><span class="toc-number">3.</span> <span class="toc-text">Optimization</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Pure-return-maximization"><span class="toc-number">3.1.</span> <span class="toc-text">1) Pure return maximization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Variance-penalized-objective-Sharpe-style-sizing"><span class="toc-number">3.2.</span> <span class="toc-text">2) Variance-penalized objective (Sharpe-style sizing)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-CVaR-tail-variance-and-turnover-penalties"><span class="toc-number">3.3.</span> <span class="toc-text">3) CVaR, tail variance, and turnover penalties</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Deriving-step-wise-penalties-from-rho-1-and-rho-2"><span class="toc-number">3.4.</span> <span class="toc-text">4) Deriving step-wise penalties from $\rho_1$ and $\rho_2$</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#a-Volatility-penalty-rho-1"><span class="toc-number">3.4.1.</span> <span class="toc-text">(a) Volatility penalty $\rho_1$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#b-Underperformance-penalty-rho-2"><span class="toc-number">3.4.2.</span> <span class="toc-text">(b) Underperformance penalty $\rho_2$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#c-Final-single-step-penalty"><span class="toc-number">3.4.3.</span> <span class="toc-text">c) Final single-step penalty</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Final-single-step-optimization-Problem"><span class="toc-number">3.5.</span> <span class="toc-text">Final single-step optimization Problem</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hyperparameter-Search"><span class="toc-number">4.</span> <span class="toc-text">Hyperparameter Search</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Evaluation-Results"><span class="toc-number">5.</span> <span class="toc-text">Evaluation Results</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#On-End-to-End-Learning-Value-Oriented"><span class="toc-number">6.</span> <span class="toc-text">On End-to-End Learning (Value-Oriented)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#On-Mindset"><span class="toc-number">7.</span> <span class="toc-text">On Mindset</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Competition-Background"><span class="toc-number">1.</span> <span class="toc-text">Competition Background</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Overview"><span class="toc-number">2.</span> <span class="toc-text">Overview</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Probabilistic-forecasting"><span class="toc-number">2.1.</span> <span class="toc-text">1) Probabilistic forecasting</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Single-step-position-optimization"><span class="toc-number">2.2.</span> <span class="toc-text">2) Single-step position optimization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Ensembling"><span class="toc-number">2.3.</span> <span class="toc-text">3) Ensembling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Hyperparameter-Tuning"><span class="toc-number">2.4.</span> <span class="toc-text">4) Hyperparameter Tuning</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Problem-Formulation"><span class="toc-number">3.</span> <span class="toc-text">Problem Formulation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Probabilistic-Forecasting"><span class="toc-number">4.</span> <span class="toc-text">Probabilistic Forecasting</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Feature-Engineering"><span class="toc-number">4.1.</span> <span class="toc-text">Feature Engineering</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Models-and-Targets"><span class="toc-number">4.2.</span> <span class="toc-text">Models and Targets</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ensemble"><span class="toc-number">4.3.</span> <span class="toc-text">Ensemble</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Optimization"><span class="toc-number">5.</span> <span class="toc-text">Optimization</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Pure-return-maximization"><span class="toc-number">5.1.</span> <span class="toc-text">1) Pure return maximization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Variance-penalized-objective-Sharpe-style-sizing"><span class="toc-number">5.2.</span> <span class="toc-text">2) Variance-penalized objective (Sharpe-style sizing)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-CVaR-tail-variance-and-turnover-penalties"><span class="toc-number">5.3.</span> <span class="toc-text">3) CVaR, tail variance, and turnover penalties</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Deriving-step-wise-penalties-from-rho-1-and-rho-2"><span class="toc-number">5.4.</span> <span class="toc-text">4) Deriving step-wise penalties from $\rho_1$ and $\rho_2$</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#a-Volatility-penalty-rho-1"><span class="toc-number">5.4.1.</span> <span class="toc-text">(a) Volatility penalty $\rho_1$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#b-Underperformance-penalty-rho-2"><span class="toc-number">5.4.2.</span> <span class="toc-text">(b) Underperformance penalty $\rho_2$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#c-Final-single-step-penalty"><span class="toc-number">5.4.3.</span> <span class="toc-text">c) Final single-step penalty</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Final-single-step-optimization-Problem"><span class="toc-number">5.5.</span> <span class="toc-text">Final single-step optimization Problem</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hyperparameter-Search"><span class="toc-number">6.</span> <span class="toc-text">Hyperparameter Search</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Evaluation-Results"><span class="toc-number">7.</span> <span class="toc-text">Evaluation Results</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#On-End-to-End-Learning-Value-Oriented"><span class="toc-number">8.</span> <span class="toc-text">On End-to-End Learning (Value-Oriented)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#On-Mindset"><span class="toc-number">9.</span> <span class="toc-text">On Mindset</span></a></li></ol>
       </div>
     
   </span>
@@ -180,104 +180,87 @@
 <h2 id="Competition-Background">Competition Background</h2>
 <p>Participants are required to predict the <strong>next-day excess return</strong> of the S&amp;P 500 index when buying at day <em>t</em> and selling at day <em>t+1</em>, and to determine the <strong>position size</strong> for day <em>t</em>, constrained within the range ([0, 2]).<br>
 The strategy return is defined as:</p>
-
-$$
+<p>$$
 \text{Return} = \text{Position} \times \text{Excess Return}.
-$$
-{% end %}
-
-Performance is evaluated using the **Sharpe ratio** computed over a rolling test window (mean return divided by return volatility), with two additional long-term penalties:
-
-- A **volatility penalty** when the strategy’s volatility exceeds market volatility, which effectively discourages overly aggressive positions (e.g., positions larger than 1.2).
-- An **under-investment penalty** that penalizes strategies which trade too conservatively over long horizons (e.g., positions consistently below 1).
-
-All decisions must be made in a **single-step fashion**: at each time point, the participant can only predict a single-point excess return and make a corresponding one-period position decision.  
-Because the official scoring function is **non-convex** and defined over a time window, it is impractical to directly optimize the objective function itself.
-
-
-
-## Overview
-
-Since the final decision variable in this competition is the **position size** $p_t$, the problem naturally fits into a **predict-then-optimize** framework: first extract as much *useful probabilistic information* as possible from data, and then design a decision rule that is *explicitly aligned with the competition score*.
-
-My solution consists of three tightly coupled components.
-
-### 1) Probabilistic forecasting
-
-Instead of relying on a single point prediction, I train a family of machine learning regression models to characterize the *conditional distribution* of market excess returns. Concretely, the models are used to predict:
-
-- The conditional mean of excess return  
-- The conditional variance  
-- Multiple left-tail quantiles (used to approximate CVaR and other tail risk measures)
-
-The motivation is straightforward: in an extremely low signal-to-noise environment, point forecasts alone are fragile, while distributional information provides much richer signals for downstream risk-aware decision making.
-
-### 2) Single-step position optimization
-
-The official competition score is defined over a rolling time window and involves non-linear, non-convex statistics (Sharpe ratio, volatility ratios, geometric means). Directly optimizing this window-based score is impractical.
-
-Instead, I derive a **single-time-step surrogate optimization problem** that approximates the dominant behavior of the score. The resulting objective explicitly incorporates:
-
-- Variance penalty (Sharpe-style risk control)  
-- CVaR penalty (expected loss in the worst tail)  
-- Tail variance penalty (via conditional second moments)  
-- Multi-order turnover penalties to suppress excessive trading  
-- Explicit penalties aligned with the competition rules $\rho_1$ and $\rho_2$
-
-This step is where most of the mathematical derivation effort is spent: the goal is to translate a window-level evaluation metric into a tractable, stable, single-step decision problem.
-
-### 3) Ensembling
-
-In the final stage, I ensemble both **models** and **strategies**:
-
-- Multiple ML models (LightGBM, CatBoost, XGBoost)  
-- Two types of trading logic:
-  - A simple signal-based position rule （as the demo submission notebook provided) 
-  - The derived optimization-based position policy
-
-The ensemble weights are tuned using walk-forward validation to balance robustness and performance.
-### 4) Hyperparameter Tuning
-
-All penalty weights, CVaR confidence levels, turnover orders, and ensemble coefficients are selected via walk-forward hyperparameter search, ensuring that the final solution not only achieves strong average performance across all folds, but also sufficiently suppresses score variance between folds. The hyperparameters being searched are mainly associated with the optimization layer, as they determine the concrete parameters of the derived formulation. The hyperparameters of the ML models themselves (LightGBM, CatBoost, XGBoost) are not tuned. The motivation is that the room for improvement at the forecasting layer is limited, while the optimization-layer hyperparameters are the key factors that truly shape a good and robust trading strategy.
-
-## Problem Formulation
-
-At trading day $t$, we define:
-
-- Position: $p_t$  
-- Market return: $r_t^m$  
-- Risk-free rate: $r_t^f$  
-- Market excess return: $e_t^m = r_t^m - r_t^f$
-
-Then the strategy return is
+$$</p>
+<p>Performance is evaluated using the <strong>Sharpe ratio</strong> computed over a rolling test window (mean return divided by return volatility), with two additional long-term penalties:</p>
+<ul>
+<li>A <strong>volatility penalty</strong> when the strategy’s volatility exceeds market volatility, which effectively discourages overly aggressive positions (e.g., positions larger than 1.2).</li>
+<li>An <strong>under-investment penalty</strong> that penalizes strategies which trade too conservatively over long horizons (e.g., positions consistently below 1).</li>
+</ul>
+<p>All decisions must be made in a <strong>single-step fashion</strong>: at each time point, the participant can only predict a single-point excess return and make a corresponding one-period position decision.<br>
+Because the official scoring function is <strong>non-convex</strong> and defined over a time window, it is impractical to directly optimize the objective function itself.</p>
+<h2 id="Overview">Overview</h2>
+<p>Since the final decision variable in this competition is the <strong>position size</strong> $p_t$, the problem naturally fits into a <strong>predict-then-optimize</strong> framework: first extract as much <em>useful probabilistic information</em> as possible from data, and then design a decision rule that is <em>explicitly aligned with the competition score</em>.</p>
+<p>My solution consists of three tightly coupled components.</p>
+<h3 id="1-Probabilistic-forecasting">1) Probabilistic forecasting</h3>
+<p>Instead of relying on a single point prediction, I train a family of machine learning regression models to characterize the <em>conditional distribution</em> of market excess returns. Concretely, the models are used to predict:</p>
+<ul>
+<li>The conditional mean of excess return</li>
+<li>The conditional variance</li>
+<li>Multiple left-tail quantiles (used to approximate CVaR and other tail risk measures)</li>
+</ul>
+<p>The motivation is straightforward: in an extremely low signal-to-noise environment, point forecasts alone are fragile, while distributional information provides much richer signals for downstream risk-aware decision making.</p>
+<h3 id="2-Single-step-position-optimization">2) Single-step position optimization</h3>
+<p>The official competition score is defined over a rolling time window and involves non-linear, non-convex statistics (Sharpe ratio, volatility ratios, geometric means). Directly optimizing this window-based score is impractical.</p>
+<p>Instead, I derive a <strong>single-time-step surrogate optimization problem</strong> that approximates the dominant behavior of the score. The resulting objective explicitly incorporates:</p>
+<ul>
+<li>Variance penalty (Sharpe-style risk control)</li>
+<li>CVaR penalty (expected loss in the worst tail)</li>
+<li>Tail variance penalty (via conditional second moments)</li>
+<li>Multi-order turnover penalties to suppress excessive trading</li>
+<li>Explicit penalties aligned with the competition rules $\rho_1$ and $\rho_2$</li>
+</ul>
+<p>This step is where most of the mathematical derivation effort is spent: the goal is to translate a window-level evaluation metric into a tractable, stable, single-step decision problem.</p>
+<h3 id="3-Ensembling">3) Ensembling</h3>
+<p>In the final stage, I ensemble both <strong>models</strong> and <strong>strategies</strong>:</p>
+<ul>
+<li>Multiple ML models (LightGBM, CatBoost, XGBoost)</li>
+<li>Two types of trading logic:
+<ul>
+<li>A simple signal-based position rule （as the demo submission notebook provided)</li>
+<li>The derived optimization-based position policy</li>
+</ul>
+</li>
+</ul>
+<p>The ensemble weights are tuned using walk-forward validation to balance robustness and performance.</p>
+<h3 id="4-Hyperparameter-Tuning">4) Hyperparameter Tuning</h3>
+<p>All penalty weights, CVaR confidence levels, turnover orders, and ensemble coefficients are selected via walk-forward hyperparameter search, ensuring that the final solution not only achieves strong average performance across all folds, but also sufficiently suppresses score variance between folds. The hyperparameters being searched are mainly associated with the optimization layer, as they determine the concrete parameters of the derived formulation. The hyperparameters of the ML models themselves (LightGBM, CatBoost, XGBoost) are not tuned. The motivation is that the room for improvement at the forecasting layer is limited, while the optimization-layer hyperparameters are the key factors that truly shape a good and robust trading strategy.</p>
+<h2 id="Problem-Formulation">Problem Formulation</h2>
+<p>At trading day $t$, we define:</p>
+<ul>
+<li>Position: $p_t$</li>
+<li>Market return: $r_t^m$</li>
+<li>Risk-free rate: $r_t^f$</li>
+<li>Market excess return: $e_t^m = r_t^m - r_t^f$</li>
+</ul>
+<p>Then the strategy return is
 $$
 r_t^s = r_t^f(1 - p_t) + p_t r_t^m = p_t e_t^m + r_t^f,
 $$
 and the strategy excess return is
 $$
 e_t^s = r_t^s - r_t^f = p_t e_t^m.
-$$
-
-The Sharpe ratio (the most important metric in this competition) is defined as
-
-$$\text{Sharp}=
+$$</p>
+<p>The Sharpe ratio (the most important metric in this competition) is defined as</p>
+<p>$$\text{Sharp}=
 \frac{
 \left(\prod_{t=1}^{T}(1+e_t^s)\right)^{\frac{1}{T}} - 1
 }{
-\operatorname{std}(\{r_t^s\}_{t=1}^{T})
+\operatorname{std}({r_t^s}_{t=1}^{T})
 }
 \sqrt{252}.
 $$
-That is, annualized mean excess return divided by the standard deviation of daily returns.
+That is, annualized mean excess return divided by the standard deviation of daily returns.</p>
+<p>The final competition score applies two penalties to the Sharpe ratio:</p>
+<ul>
+<li><strong>Volatility penalty</strong>: if annualized strategy volatility exceeds $1.2\times$ market volatility, the excess part is penalized linearly:</li>
+</ul>
 
-The final competition score applies two penalties to the Sharpe ratio:
-
-- **Volatility penalty**: if annualized strategy volatility exceeds $1.2\times$ market volatility, the excess part is penalized linearly:
-{% raw %}
 $$
 \rho_1=1+\max(0,\frac{std(\{r_t^s\})_{t=1}^T}{std(\{r_t^m\})_{t=1}^T}-1.2)
 $$
-{% endraw %}
+
 <ul>
 <li><strong>Underperformance penalty</strong>: the strategy cannot “sit in cash and earn interest” while consistently underperforming the market:<br>
 $$\rho_2=
@@ -292,12 +275,12 @@ $$\rho_2=
 $$</li>
 </ul>
 <p>The final score is</p>
-{% raw %}
+
 $$
 \text{Score}=
 \frac{1}{\rho_1}\cdot\frac{1}{\rho_2}\cdot\text{Sharpe}.
 $$
-{% endraw %}
+
 <p>From these equations, we can see that $e_t^m$ is a random variable, while $p_t$ is the decision variable.<br>
 The score is mainly driven by $e_t^s(t=1,\dots,T)$ and $\mathrm{std}(r_t^s)(t=1,\dots,T)$: we want <strong>high returns with low variance</strong>.</p>
 <hr>
@@ -381,7 +364,7 @@ $$</p>
 <p>Compared to pure return maximization, this already prevents extreme leverage and yields smoother position sizing.</p>
 <h3 id="3-CVaR-tail-variance-and-turnover-penalties">3) CVaR, tail variance, and turnover penalties</h3>
 <p>Building on the variance-penalized formulation, I further incorporate a downside tail risk penalty (CVaR), a tail “volatility” penalty (via conditional second moments in the left tail), and higher-order lagged turnover penalties to smooth trading dynamics. The practical single-step objective is:</p>
-{% raw %}
+
 $$
 \begin{aligned}
 \max_{p_t}\quad
@@ -392,40 +375,40 @@ $$
 - \lambda_k \left|p_t - \frac{1}{K}\sum_{k=1}^{K} p_{t-k}\right|.
 \end{aligned}
 $$
-{% endraw %}
+
 <p>Here $q_\alpha$ is the (left-tail) $\alpha$-quantile of $e_t^m$ (i.e., VaR at level $\alpha$), and the CVaR term is defined as the conditional expectation in the worst $\alpha$ fraction of outcomes:</p>
-{% raw %}
+
 $$
 \text{CVaR}_\alpha(e_t^m)=\mathbb{E}\!\left[e_t^m \mid e_t^m \le q_\alpha\right].
 $$
-{% endraw %}
-<p>In practice, I estimate $q_\alpha$ and {% raw %}$\mathrm{CVaR}_{\alpha}${% endraw %} from my <strong>multiple quantile regression models</strong>. Suppose the models output conditional quantile forecasts $\hat q_{\beta,t}\approx q_\beta(e_t^m| \mathcal{F}_t)$ for a grid of tail levels $\beta\in(0,\alpha]$ (e.g., several small quantiles up to $\alpha$). Then I use the standard identity that CVaR can be written as an average of tail quantiles:</p>
-{% raw %}
+
+<p>In practice, I estimate $q_\alpha$ and $\mathrm{CVaR}_{\alpha}$ from my <strong>multiple quantile regression models</strong>. Suppose the models output conditional quantile forecasts $\hat q_{\beta,t}\approx q_\beta(e_t^m| \mathcal{F}_t)$ for a grid of tail levels $\beta\in(0,\alpha]$ (e.g., several small quantiles up to $\alpha$). Then I use the standard identity that CVaR can be written as an average of tail quantiles:</p>
+
 $$
 \text{CVaR}_\alpha(X)=\frac{1}{\alpha}\int_{0}^{\alpha} q_u(X)\,du,
 $$
-{% endraw %}
+
 <p>and approximate it numerically using the predicted quantiles:</p>
-{% raw %}
+
 $$
 \widehat{\text{CVaR}}_{\alpha,t}\approx \frac{1}{\alpha}\sum_{j=1}^{M}\hat q_{\beta_j,t}\,\Delta\beta_j,
 \quad \Delta\beta_j=\beta_j-\beta_{j-1},\ \beta_M=\alpha.
 $$
-{% endraw %}
+
 <p>Similarly, the tail variance proxy is implemented via the conditional second moment in the left tail. Using the same quantile-grid approximation,</p>
-{% raw %}
+
 $$
 \mathbb{E}\!\left[X^2\mid X\le q_\alpha\right]=\frac{1}{\alpha}\int_{0}^{\alpha} q_u(X)^2\,du
 \ \Rightarrow\
 \widehat{m}_{2,\alpha,t}\approx \frac{1}{\alpha}\sum_{j=1}^{M}\hat q_{\beta_j,t}^2\,\Delta\beta_j.
 $$
-{% endraw %}
+
 <p>Overall, these tail-aware penalties (CVaR + tail second moment) prevent the optimizer from taking aggressive positions when the predicted downside tail is heavy, while the turnover terms suppress “chasing noise”. Together, they substantially stabilize the position path and improve realized Sharpe under short evaluation windows.</p>
 <h3 id="4-Deriving-step-wise-penalties-from-rho-1-and-rho-2">4) Deriving step-wise penalties from $\rho_1$ and $\rho_2$</h3>
 <p>Even though $\rho_1$ and $\rho_2$ are window-based and non-convex (ratios of std, geometric means), we can derive simple single-step hinge penalties that mimic their dominant effects.</p>
 <h4 id="a-Volatility-penalty-rho-1">(a) Volatility penalty $\rho_1$</h4>
 <p>Recall</p>
-{% raw %}
+
 $$
 \rho
 1 + \max\!\left(
@@ -434,7 +417,7 @@ $$
      {\operatorname{std}(\{r_t^m\}_{t=1}^{T})}-1.2
 \right).
 $$
-{% endraw %}
+
 <p>Since $r_t^s = r_t^f + p_t e_t^m$ and $r_t^f$ is approximately constant within the window,
 $$
 \frac{\operatorname{std}({r_t^s})}{\operatorname{std}({r_t^m})}
@@ -539,7 +522,7 @@ $$
 $$</p>
 <h3 id="Final-single-step-optimization-Problem">Final single-step optimization Problem</h3>
 <p>Combining all components, the final single-step optimization problem is</p>
-{% raw %}
+
 $$
 \begin{aligned}
 \max_{p_t} \mathcal{J}(p_t)=
@@ -552,14 +535,14 @@ p_t \mu_t
 -\lambda_{2}\max(1-p_t,0).
 \end{aligned}
 $$
-{% endraw %}
+
 <p>The full objective becomes non-convex but is still a univariate optimization problem in $p_t$.<br>
 Using Big-M + MIP solvers would be overkill, so I simply used grid search, which is robust and fast in practice.</p>
 <hr>
 <h2 id="Hyperparameter-Search">Hyperparameter Search</h2>
 <p>The derivation maps a window-based score into a single-step optimization formulation, but many hyperparameters remain to be tuned (e.g., penalty weights, CVaR confidence level, turnover order, etc.).</p>
 <p>Since lagged features are used, I applied walk-forward evaluation and optimized the following stability-aware objective:</p>
-{% raw %}
+
 $$
 \max_{\theta}\left(
 \mathbb{E}_{\text{folds}}[\text{Score}(\theta)]-
@@ -570,7 +553,7 @@ $$
 \right)
 \right),
 $$
-{% endraw %}
+
 <p>where $\theta$ denotes hyperparameters, $\gamma$ controls the strength of stability regularization, and $\tau$ is a variance floor to avoid overly small variance estimates dominating the objective.</p>
 <p>This explicitly trades off high average score and low variance across folds.</p>
 <h2 id="Evaluation-Results">Evaluation Results</h2>
@@ -616,7 +599,7 @@ because the hyperparameter space is much smaller, and the complexity of full end
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Competition-Background"><span class="toc-number">1.</span> <span class="toc-text">Competition Background</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Probabilistic-Forecasting"><span class="toc-number">2.</span> <span class="toc-text">Probabilistic Forecasting</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Feature-Engineering"><span class="toc-number">2.1.</span> <span class="toc-text">Feature Engineering</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Models-and-Targets"><span class="toc-number">2.2.</span> <span class="toc-text">Models and Targets</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ensemble"><span class="toc-number">2.3.</span> <span class="toc-text">Ensemble</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Optimization"><span class="toc-number">3.</span> <span class="toc-text">Optimization</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Pure-return-maximization"><span class="toc-number">3.1.</span> <span class="toc-text">1) Pure return maximization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Variance-penalized-objective-Sharpe-style-sizing"><span class="toc-number">3.2.</span> <span class="toc-text">2) Variance-penalized objective (Sharpe-style sizing)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-CVaR-tail-variance-and-turnover-penalties"><span class="toc-number">3.3.</span> <span class="toc-text">3) CVaR, tail variance, and turnover penalties</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Deriving-step-wise-penalties-from-rho-1-and-rho-2"><span class="toc-number">3.4.</span> <span class="toc-text">4) Deriving step-wise penalties from $\rho_1$ and $\rho_2$</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#a-Volatility-penalty-rho-1"><span class="toc-number">3.4.1.</span> <span class="toc-text">(a) Volatility penalty $\rho_1$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#b-Underperformance-penalty-rho-2"><span class="toc-number">3.4.2.</span> <span class="toc-text">(b) Underperformance penalty $\rho_2$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#c-Final-single-step-penalty"><span class="toc-number">3.4.3.</span> <span class="toc-text">c) Final single-step penalty</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Final-single-step-optimization-Problem"><span class="toc-number">3.5.</span> <span class="toc-text">Final single-step optimization Problem</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hyperparameter-Search"><span class="toc-number">4.</span> <span class="toc-text">Hyperparameter Search</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Evaluation-Results"><span class="toc-number">5.</span> <span class="toc-text">Evaluation Results</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#On-End-to-End-Learning-Value-Oriented"><span class="toc-number">6.</span> <span class="toc-text">On End-to-End Learning (Value-Oriented)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#On-Mindset"><span class="toc-number">7.</span> <span class="toc-text">On Mindset</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Competition-Background"><span class="toc-number">1.</span> <span class="toc-text">Competition Background</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Overview"><span class="toc-number">2.</span> <span class="toc-text">Overview</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Probabilistic-forecasting"><span class="toc-number">2.1.</span> <span class="toc-text">1) Probabilistic forecasting</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Single-step-position-optimization"><span class="toc-number">2.2.</span> <span class="toc-text">2) Single-step position optimization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Ensembling"><span class="toc-number">2.3.</span> <span class="toc-text">3) Ensembling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Hyperparameter-Tuning"><span class="toc-number">2.4.</span> <span class="toc-text">4) Hyperparameter Tuning</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Problem-Formulation"><span class="toc-number">3.</span> <span class="toc-text">Problem Formulation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Probabilistic-Forecasting"><span class="toc-number">4.</span> <span class="toc-text">Probabilistic Forecasting</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Feature-Engineering"><span class="toc-number">4.1.</span> <span class="toc-text">Feature Engineering</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Models-and-Targets"><span class="toc-number">4.2.</span> <span class="toc-text">Models and Targets</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ensemble"><span class="toc-number">4.3.</span> <span class="toc-text">Ensemble</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Optimization"><span class="toc-number">5.</span> <span class="toc-text">Optimization</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Pure-return-maximization"><span class="toc-number">5.1.</span> <span class="toc-text">1) Pure return maximization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Variance-penalized-objective-Sharpe-style-sizing"><span class="toc-number">5.2.</span> <span class="toc-text">2) Variance-penalized objective (Sharpe-style sizing)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-CVaR-tail-variance-and-turnover-penalties"><span class="toc-number">5.3.</span> <span class="toc-text">3) CVaR, tail variance, and turnover penalties</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Deriving-step-wise-penalties-from-rho-1-and-rho-2"><span class="toc-number">5.4.</span> <span class="toc-text">4) Deriving step-wise penalties from $\rho_1$ and $\rho_2$</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#a-Volatility-penalty-rho-1"><span class="toc-number">5.4.1.</span> <span class="toc-text">(a) Volatility penalty $\rho_1$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#b-Underperformance-penalty-rho-2"><span class="toc-number">5.4.2.</span> <span class="toc-text">(b) Underperformance penalty $\rho_2$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#c-Final-single-step-penalty"><span class="toc-number">5.4.3.</span> <span class="toc-text">c) Final single-step penalty</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Final-single-step-optimization-Problem"><span class="toc-number">5.5.</span> <span class="toc-text">Final single-step optimization Problem</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hyperparameter-Search"><span class="toc-number">6.</span> <span class="toc-text">Hyperparameter Search</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Evaluation-Results"><span class="toc-number">7.</span> <span class="toc-text">Evaluation Results</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#On-End-to-End-Learning-Value-Oriented"><span class="toc-number">8.</span> <span class="toc-text">On End-to-End Learning (Value-Oriented)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#On-Mindset"><span class="toc-number">9.</span> <span class="toc-text">On Mindset</span></a></li></ol>
       </div>
     
 
